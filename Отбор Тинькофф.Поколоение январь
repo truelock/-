@@ -1,0 +1,27 @@
+def distance(perv, vtor):
+    n, m = len(perv), len(vtor)
+    if n > m:
+        perv, vtor = vtor, perv
+        n, m = m, n
+
+    current_row = range(n + 1)
+    for i in range(1, m + 1):
+        previous_row, current_row = current_row, [i] + [0] * n
+        for j in range(1, n + 1):
+            add, delete, change = previous_row[j] + 1, current_row[j - 1] + 1, previous_row[j - 1]
+            if perv[j - 1] != vtor[i - 1]:
+                change += 1
+            current_row[j] = min(add, delete, change)
+
+    return current_row[n]
+
+print("Введите название первого документа")
+file_name= input()
+
+print("Введите название второго документа")
+file_name2 = input()
+
+perv_doc = open(file_name)
+vtor_doc = open(file_name2)
+
+print(distance(perv_doc,vtor_doc))
